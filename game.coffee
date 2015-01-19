@@ -1,44 +1,24 @@
+# entry point
 window.onload = () ->
 	WIDTH = 640
 	HEIGHT = 480
-	INITIAL_SPEED = 2
-	ACCELERATION = 0.05
-	GRAVITY = 1
-	JUMP_SPEED = 10
-	Crafty.DrawManager.debug()
+	
+	Crafty.init(WIDTH, HEIGHT)
+	Crafty.viewport.init(WIDTH, HEIGHT)
+	Crafty.viewport.bounds = {min:{x:0, y:0}, max:{x:+Infinity, y:480}};
+	Crafty.settings.modify('autoPause', true)
+	loadScene('play')
 
-	Crafty.init(WIDTH, HEIGHT);
-	console.log("crafty inited");
+loadScene = (sceneName) ->
+	console.log("Running loadScene with" + sceneName)
 
-	Crafty.e('Floor, 2D, Canvas, Color, LevelObj')
-		.attr({x: 0, y: 250, w: 500, h: 10})
-		.color('black');
-	console.log("floor defined");
+	#Crafty.audio stop all
+
+	#reset persistent data (probably just points?) ??
+	#  this could be done on SceneDestroy event
+
+	#any other cleanup checking to be done here?
+	#  this could be done on SceneDestroy event (most likely)
 
 
-	Crafty.e('2D, Canvas, Color, Fourway, Gravity, Player')
-		.attr(playerAttribs:
-				x: 0,
-				y: 0,
-				w: 50,
-				h: 50,
-				vx: INITIAL_SPEED,
-				ax: ACCELERATION,
-				jumping: false
-		)
-		.color('green')
-		.gravity('Floor')
-		.gravityConst(GRAVITY)
-		# FIXME THIS LOOKS UGLY
-		.bind("EnterFrame", () ->
-					Crafty("LevelObj").each( () ->
-						this.x -= Crafty("Player").vx
-					)
-					this.vx += this.ax
-		);
-		# .bind("KeyDown", () ->
-		# 			if this.isDown('SPACE') and ! _falling
-		# 				this.vy += JUMP_SPEED
-		# );
-	console.log(" player defined ");
-	Crafty.DrawManager.debug()
+	Crafty.scene(sceneName)
