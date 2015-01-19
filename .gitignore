@@ -1,1 +1,3 @@
 .vagrant
+*.js
+!libs/*.js
